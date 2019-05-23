@@ -8,11 +8,11 @@ import { login } from '../../actions/auth';
 const Login = ({ login, isAuthenticated }) => {
   // 'formData' is the state, 'setFormData' sets the values in
   const [formData, setFormData] = useState({
-    username: '',
+    email: '',
     password: ''
   });
 
-  const { username, password } = formData;
+  const { email, password } = formData;
 
   const onChange = e =>
     setFormData({
@@ -22,26 +22,27 @@ const Login = ({ login, isAuthenticated }) => {
 
   const onSubmit = async e => {
     e.preventDefault();
-    login(username, password);
+    login(email, password);
   };
 
+  // Redirect fo logedin
   if (isAuthenticated) {
     return <Redirect to='/dashboard' />;
   }
 
   return (
     <Fragment>
-      <h1 className='large text-primary'>Log In</h1>
+      <h1 className='large text-primary'>Sign In</h1>
       <p className='lead'>
         <i className='fas fa-user' /> Sign into your account
       </p>
       <form className='form' onSubmit={e => onSubmit(e)}>
         <div className='form-group'>
           <input
-            // type='email'
-            placeholder='Username'
-            name='username'
-            value={username}
+            type='email'
+            placeholder='Email Address'
+            name='email'
+            value={email}
             onChange={e => onChange(e)}
             required
           />

@@ -17,18 +17,18 @@ export const loadUser = () => async dispatch => {
     setAuthToken(localStorage.token);
   }
 
-  try {
-    const res = await axios.get('/api/auth');
-    dispatch({
-      type: USER_LOADED,
-      // payload is 'user'
-      payload: res.data
-    });
-  } catch (err) {
-    dispatch({
-      type: AUTH_ERROR
-    });
-  }
+  // try {
+  //   const res = await axios.post('/testone/loggedinuser');
+  //   dispatch({
+  //     type: USER_LOADED,
+  //     // payload is 'user'
+  //     payload: res.data
+  //   });
+  // } catch (err) {
+  //   dispatch({
+  //     type: AUTH_ERROR
+  //   });
+  // }
 };
 
 // Register User
@@ -61,18 +61,20 @@ export const register = ({ name, email, password }) => async dispatch => {
 };
 
 // Login User
-export const login = (email, password) => async dispatch => {
+export const login = (username, password) => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'application/json'
     }
   };
 
-  const body = JSON.stringify({ email, password });
+  const body = JSON.stringify({ username, password });
 
   try {
-    const res = await axios.post('/api/auth', body, config);
-
+    // Mongo
+    // const res = await axios.post('/api/auth', body, config);
+    // Wordpress
+    const res = await axios.post('/jwt-auth/v1/token', body, config);
     dispatch({
       type: LOGIN_SUCCESS,
       payload: res.data
