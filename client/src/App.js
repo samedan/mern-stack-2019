@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect } from 'react';
+import withSplashScreen from './components/withSplashScreen';
 import './App.css';
 import Navbar from './components/layout/Navbar';
 import Landing from './components/layout/Landing';
@@ -79,4 +80,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default withSplashScreen(App);
