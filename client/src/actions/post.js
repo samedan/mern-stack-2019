@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { setAlert } from './alert';
+import axios from "axios";
+import { setAlert } from "./alert";
 import {
   GET_POSTS,
   POST_ERROR,
@@ -8,175 +8,239 @@ import {
   ADD_POST,
   GET_POST,
   ADD_COMMENT,
-  REMOVE_COMMENT
-} from './types';
-import backend from './backend';
+  REMOVE_COMMENT,
+} from "./types";
+import backend from "./backend";
 
 // Get posts
-export const getPosts = () => async dispatch => {
+export const getPosts = () => async (
+  dispatch
+) => {
   try {
     const res = await axios.get(
-      `https://boiling-taiga-24831.herokuapp.com/api/posts`
+      `${backend}/api/posts`
     );
     dispatch({
       type: GET_POSTS,
-      payload: res.data
+      payload: res.data,
     });
   } catch (err) {
     dispatch({
       type: POST_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      payload: {
+        msg: err.response.statusText,
+        status: err.response.status,
+      },
     });
   }
 };
 
 // Add like
-export const addLike = id => async dispatch => {
+export const addLike = (id) => async (
+  dispatch
+) => {
   try {
     const res = await axios.put(
-      `https://boiling-taiga-24831.herokuapp.com/api/posts/like/${id}`
+      `${backend}/posts/like/${id}`
     );
     dispatch({
       type: UPDATE_LIKES,
-      payload: { id, likes: res.data }
+      payload: { id, likes: res.data },
     });
   } catch (err) {
     dispatch({
       type: POST_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      payload: {
+        msg: err.response.statusText,
+        status: err.response.status,
+      },
     });
   }
 };
 
 // Remove like
-export const removeLike = id => async dispatch => {
+export const removeLike = (
+  id
+) => async (dispatch) => {
   try {
     const res = await axios.put(
-      `https://boiling-taiga-24831.herokuapp.com/api/posts/unlike/${id}`
+      `${backend}/posts/unlike/${id}`
     );
     dispatch({
       type: UPDATE_LIKES,
-      payload: { id, likes: res.data }
+      payload: { id, likes: res.data },
     });
   } catch (err) {
     dispatch({
       type: POST_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      payload: {
+        msg: err.response.statusText,
+        status: err.response.status,
+      },
     });
   }
 };
 
 // Delete post
-export const deletePost = id => async dispatch => {
+export const deletePost = (
+  id
+) => async (dispatch) => {
   try {
     await axios.delete(
-      `https://boiling-taiga-24831.herokuapp.com/api/posts/${id}`
+      `${backend}/api/posts/${id}`
     );
     dispatch({
       type: DELETE_POST,
-      payload: id
+      payload: id,
     });
 
-    dispatch(setAlert('Post Removed', 'success'));
+    dispatch(
+      setAlert(
+        "Post Removed",
+        "success"
+      )
+    );
   } catch (err) {
     dispatch({
       type: POST_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      payload: {
+        msg: err.response.statusText,
+        status: err.response.status,
+      },
     });
   }
 };
 
 // Add post
-export const addPost = formData => async dispatch => {
+export const addPost = (
+  formData
+) => async (dispatch) => {
   const config = {
     headers: {
-      'Content-Type': 'application/json'
-    }
+      "Content-Type":
+        "application/json",
+    },
   };
 
   try {
     const res = await axios.post(
-      `https://boiling-taiga-24831.herokuapp.com/api/posts/`,
+      `${backend}/api/posts/`,
       formData,
       config
     );
     dispatch({
       type: ADD_POST,
-      payload: res.data
+      payload: res.data,
     });
 
-    dispatch(setAlert('Post Created', 'success'));
+    dispatch(
+      setAlert(
+        "Post Created",
+        "success"
+      )
+    );
   } catch (err) {
     dispatch({
       type: POST_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      payload: {
+        msg: err.response.statusText,
+        status: err.response.status,
+      },
     });
   }
 };
 
 // Get post
-export const getPost = id => async dispatch => {
+export const getPost = (id) => async (
+  dispatch
+) => {
   try {
     const res = await axios.get(
-      `https://boiling-taiga-24831.herokuapp.com/api/posts/${id}`
+      `${backend}/api/posts/${id}`
     );
     dispatch({
       type: GET_POST,
-      payload: res.data
+      payload: res.data,
     });
   } catch (err) {
     dispatch({
       type: POST_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      payload: {
+        msg: err.response.statusText,
+        status: err.response.status,
+      },
     });
   }
 };
 
 // Add comment
-export const addComment = (postId, formData) => async dispatch => {
+export const addComment = (
+  postId,
+  formData
+) => async (dispatch) => {
   const config = {
     headers: {
-      'Content-Type': 'application/json'
-    }
+      "Content-Type":
+        "application/json",
+    },
   };
 
   try {
     const res = await axios.post(
-      `https://boiling-taiga-24831.herokuapp.com/api/posts/comment/${postId}`,
+      `${backend}/api/posts/comment/${postId}`,
       formData,
       config
     );
     dispatch({
       type: ADD_COMMENT,
-      payload: res.data
+      payload: res.data,
     });
 
-    dispatch(setAlert('Comment added', 'success'));
+    dispatch(
+      setAlert(
+        "Comment added",
+        "success"
+      )
+    );
   } catch (err) {
     dispatch({
       type: POST_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      payload: {
+        msg: err.response.statusText,
+        status: err.response.status,
+      },
     });
   }
 };
 
 // Delete comment
-export const deleteComment = (postId, commentId) => async dispatch => {
+export const deleteComment = (
+  postId,
+  commentId
+) => async (dispatch) => {
   try {
     const res = await axios.delete(
-      `https://boiling-taiga-24831.herokuapp.com/api/posts/comment/${postId}/${commentId}`
+      `${backend}/api/posts/comment/${postId}/${commentId}`
     );
     dispatch({
       type: REMOVE_COMMENT,
       // send the comment id in teh payload
-      payload: commentId
+      payload: commentId,
     });
 
-    dispatch(setAlert('Comment removed', 'success'));
+    dispatch(
+      setAlert(
+        "Comment removed",
+        "success"
+      )
+    );
   } catch (err) {
     dispatch({
       type: POST_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      payload: {
+        msg: err.response.statusText,
+        status: err.response.status,
+      },
     });
   }
 };
